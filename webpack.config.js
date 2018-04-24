@@ -14,8 +14,7 @@ Encore
     .enableSassLoader(function(sassOptions) {}, {
         resolveUrlLoader: false
      })
-
-    .autoProvidejQuery()
+	.autoProvidejQuery()
     .enableSourceMaps(!Encore.isProduction())
 ;
 
