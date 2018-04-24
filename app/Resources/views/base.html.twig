@@ -16,6 +16,14 @@
 
             <script src="{{ asset('build/app.js') }}"></script>
             <link rel="stylesheet" href="{{ asset('build/global.css') }}">
+            <link rel="stylesheet" href="{{ asset('build/mobile.css') }}">
+
+            {% set current_marque = app.session.get('marque') %}
+
+            {% if current_marque == "66-nord" %}
+                <link rel="stylesheet" href="{{ asset('build/nord.css') }}">
+            {% endif %}
+
         {% endblock %}
     </head>
     <body>

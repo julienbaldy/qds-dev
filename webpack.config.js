@@ -9,6 +9,12 @@ Encore
     .addEntry('app', './web/js/main.js')
     // read global.scss -> output as web/build/global.css
     .addStyleEntry('global', './web/css/main.scss')
+	
+	//add style entry for each marque
+    .addStyleEntry('nord', './web/css/style-nord.scss')
+	
+	//add style entry for responsive design
+    .addStyleEntry('mobile', './web/css/responsive.scss')
 
     // enable features!
     .enableSassLoader(function(sassOptions) {}, {

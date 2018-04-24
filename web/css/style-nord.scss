@@ -1,0 +1,180 @@
+/**********************
+*
+*
+        VARIABLES
+* 
+*
+**********************/
+
+/* MARQUE : 66 NORD  */
+
+$color-star-full: #FFED85;
+$color-star-hover: #f6c82c;
+$color-background-yellow : #f6c82c;
+$color-background-blue : #0fa1b8;
+$color-box-title-parent : #01a2b4;
+$color-menu-active : #04707c;
+$color-number-step-menu : #b8dde3;
+$color-note-0to10-orange : #ff9219;
+$color-note-0to10-vert : #009446;
+
+/**********************
+*
+*
+  CUSTOM CSS 66 ° Nord
+*
+*
+**********************/
+#logo-66-nord{
+  position: absolute;
+  z-index: 1;
+  width: 20%;
+  top: 11%;
+  left: 41%;
+} 
+
+.box-title-parent{
+  background-color: $color-box-title-parent;
+  color: white;
+
+  .box-title-child{
+    text-align: center;
+    padding: 1px 0 1px 0;
+    h1{
+      font-size: 2.7em;
+    }
+  }
+}
+
+.box-intro{
+  padding: 15px 0 0 0;
+
+  p{
+    text-align: center;
+  }
+
+  p:nth-child(2) {
+    color: $color-background-blue;
+    font-weight: 700;
+  }
+
+}
+
+#menu-step{
+  opacity: 0.94;
+  margin-top: 10px;
+  text-align: center;
+  color: white;
+
+  li{
+    vertical-align: top;
+    background-color: $color-background-blue;
+    padding: 15px 0 20px 0;
+    height: 91px;  
+    display: inline-block;
+    margin-right: 22px;
+    width: calc(33% - 14px);
+    font-size: 20px;
+
+    span{
+      display: inline-block;
+      width: 125px;
+
+      &:before{    
+        color: $color-number-step-menu !important;
+        position: absolute;
+        font-size: 70px;
+        left: 12%;
+        font-weight:800;    
+        margin-top: -26px;
+      }
+
+    }
+
+    &:after{  
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      width: 0px;
+      height: 0px;  
+    }
+
+    &:before{    
+      content: "" !important;
+    } 
+
+    &:first-child{
+      span:before {  
+        content: "1";
+        left: 15%;
+      }
+    }
+
+    &:nth-child(2){
+      span:before {  
+        content: "2";
+        left: 13%;
+      }
+    }
+
+    &:nth-child(3){
+      span:before {  
+        content: "3";
+        left: 15%;
+      }
+    }
+
+    /*&:nth-child(4){
+      span:before {  
+        content: "1";
+        left: 19%;
+      }
+    }*/
+
+    &:first-child:after{    
+      right: -18px;
+      border-top: 94px solid $color-background-blue;
+      border-right: 18px solid transparent;
+    }
+
+    &:nth-child(2):after{    
+      right: -18px;
+      border-top: 94px solid $color-background-blue;
+      border-right: 18px solid transparent;
+    }
+
+    &:nth-child(2):before{    
+      top: -2px;
+      left: -17px;
+      border-bottom: 93px solid $color-background-blue;
+      border-left: 18px solid transparent;
+      position: absolute;
+    }
+
+    &:last-child:before{  
+      top: -2px;
+      left: -17px;
+      border-bottom: 93px solid $color-background-blue;
+      border-left: 18px solid transparent;
+      position: absolute;
+    }
+
+    &:last-child{
+      margin-right: 0 !important;
+    }
+
+  }
+}
+
+.active-menu{
+  background-color: $color-menu-active !important;
+
+  &:after{    
+    border-top-color: $color-menu-active !important;
+  }
+  &:before{    
+    border-bottom-color: $color-menu-active !important;
+  }
+
+}
