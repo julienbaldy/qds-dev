@@ -244,12 +244,6 @@ h1 { font-size: 1.5em; margin: 10px; }
   }
 }
 
-@for $i from 0 through 10 {
-    .content-0t10:nth-child(#{$i}):before {
-        content: $i;
-    }
-}
-
 
 
 

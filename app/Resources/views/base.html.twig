@@ -1,3 +1,6 @@
+
+{% set current_marque = app.session.get('marque') %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +21,6 @@
             <link rel="stylesheet" href="{{ asset('build/global.css') }}">
             <link rel="stylesheet" href="{{ asset('build/mobile.css') }}">
 
-            {% set current_marque = app.session.get('marque') %}
 
             {% if current_marque == "66-nord" %}
                 <link rel="stylesheet" href="{{ asset('build/nord.css') }}">
@@ -27,7 +29,7 @@
         {% endblock %}
     </head>
     <body>
-        {% block header %}{% include "@App/qds/qds-header.html.twig" %}{% endblock %}
+        {% block header %}{% include "@App/qds/qds-header-nord.html.twig" %}{% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

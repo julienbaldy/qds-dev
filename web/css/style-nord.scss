@@ -178,3 +178,11 @@ $color-note-0to10-vert : #009446;
   }
 
 }
+
+@for $i from 0 through 11 {
+  .content-0t10:nth-child(#{$i}):before{
+    content : "#{$i - 1}";    
+    position: absolute;
+    margin-top: -23px;
+  }
+}
