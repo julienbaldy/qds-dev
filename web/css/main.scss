@@ -5,6 +5,7 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 
 body{
   margin: 0 !important;
+  counter-reset: countrating -1;
 }
 
 /**********************
@@ -39,7 +40,6 @@ $color-note-0to10-vert : #009446;
 **********************/
 
 fieldset, label { margin: 0; padding: 0; }
-body{ margin: 20px; }
 h1 { font-size: 1.5em; margin: 10px; }
 
 
@@ -84,14 +84,12 @@ h1 { font-size: 1.5em; margin: 10px; }
     width: 234px;
     text-align: center;
     height: 28px;
-    background-color: #f6c82c;
     margin-top: 12px;
     margin-left: 22px;
     padding-top: 2.5px;
 }
 
 .first-sf{
-  background-color: $color-background-blue !important;
   font-size: 1.0em;
   padding-top: 1.4px;
   font-weight: 700;
@@ -124,10 +122,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 #btn-suivant, #btn-valider{
 	margin: auto;	    
   margin-bottom: 50px;
-  font-size: 15px;
-  background-color: $color-background-blue; 
-  border-color: $color-background-blue;
-}
+  font-size: 15px;}
 
 .box-form-inactive{
 	display:none;
@@ -244,7 +239,91 @@ h1 { font-size: 1.5em; margin: 10px; }
   }
 }
 
+.content-0t10 {
+  counter-increment: countrating;
+}
 
+.content-0t10:before {
+  content: counter(countrating);
+  position: absolute;
+  margin-top: -23px;
+}
+
+/** Pour arrêter le compteur, optionel **/
+.content-0t10:nth-child(1n+12):before {
+  display: none;
+}
+
+
+
+#menu-step{
+  opacity: 0.94;
+  margin-top: 10px;
+  text-align: center;
+  color: white;
+
+  li{
+    vertical-align: top;
+    padding: 15px 0 20px 0;
+    height: 91px;  
+    display: inline-block;
+    margin-right: 22px;
+    width: calc(33% - 14px);
+    font-size: 20px;
+
+    span{
+      display: inline-block;
+      width: 125px;
+
+      &:before{    
+        position: absolute;
+        font-size: 70px;
+        left: 12%;
+        font-weight:800;    
+        margin-top: -26px;
+      }
+
+    }
+
+    &:after{  
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      width: 0px;
+      height: 0px;  
+    }
+
+    &:before{    
+      content: "" !important;
+    } 
+
+    &:first-child{
+      span:before {  
+        content: "1";
+        left: 15%;
+      }
+    }
+
+    &:nth-child(2){
+      span:before {  
+        content: "2";
+        left: 13%;
+      }
+    }
+
+    &:nth-child(3){
+      span:before {  
+        content: "3";
+        left: 15%;
+      }
+    }
+
+    &:last-child{
+      margin-right: 0 !important;
+    }
+  }
+}
 
 
 

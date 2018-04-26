@@ -14,18 +14,26 @@
                         {% else %} 
                             {% set etat = 'inactive' %}
                         {% endif %}
-
+   
+                        {% set nb_guide = 1 %}
+                        {% set nb_cie = 1 %}
                         {% for key,val in val %}
                         </br>
                             {% if loop.first %} 
-                                <div class="box-form-{{etat}}">
-                                {% set nb = 1 %}      
+                                <div class="box-form-{{etat}}">   
                             {% else %}    
                                 <h3>{{ val.blockTitle }}</h3>
+
                                 {% if val.guideID is defined %}
-                                    <input type="hidden" value="{{ val.guideID }}" name="id_tl_{{ nb }}___guideID" id="{{ val.idBlock }}"/>
-                                    {% set nb = nb + 1 %} 
+                                    <input type="hidden" value="{{ val.guideID }}" name="id_tl_{{ nb_guide }}___guideID" id="{{ val.idBlock }}"/>
+                                    {% set nb_guide = nb_guide + 1 %} 
                                 {% endif %}
+
+                                {% if val.cieID is defined %}
+                                    <input type="hidden" value="{{ val.cieID }}" name="cod_cie_{{ nb_cie }}___cieID" id="{{ val.idBlock }}"/>
+                                    {% set nb_cie = nb_cie + 1 %} 
+                                {% endif %}
+
                                 {% for key,value in val %}
                                     {% if value is iterable %}
                                         <div class="row">

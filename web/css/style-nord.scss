@@ -60,77 +60,43 @@ $color-note-0to10-vert : #009446;
 
 }
 
+
+.active-menu{
+  background-color: $color-menu-active !important;
+
+  &:after{    
+    border-top-color: $color-menu-active !important;
+  }
+  &:before{    
+    border-bottom-color: $color-menu-active !important;
+  }
+
+}
+
+.first-sf{
+  background-color: $color-background-blue !important;
+}
+
+#messageSF > span:not(.first-sf){
+  background-color: $color-background-yellow;
+}
+
+#btn-suivant, #btn-valider{
+  background-color: $color-background-blue; 
+  border-color: $color-background-blue;
+}
+
+
 #menu-step{
-  opacity: 0.94;
-  margin-top: 10px;
-  text-align: center;
-  color: white;
 
   li{
-    vertical-align: top;
     background-color: $color-background-blue;
-    padding: 15px 0 20px 0;
-    height: 91px;  
-    display: inline-block;
-    margin-right: 22px;
-    width: calc(33% - 14px);
-    font-size: 20px;
 
     span{
-      display: inline-block;
-      width: 125px;
-
       &:before{    
         color: $color-number-step-menu !important;
-        position: absolute;
-        font-size: 70px;
-        left: 12%;
-        font-weight:800;    
-        margin-top: -26px;
-      }
-
-    }
-
-    &:after{  
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      width: 0px;
-      height: 0px;  
-    }
-
-    &:before{    
-      content: "" !important;
-    } 
-
-    &:first-child{
-      span:before {  
-        content: "1";
-        left: 15%;
       }
     }
-
-    &:nth-child(2){
-      span:before {  
-        content: "2";
-        left: 13%;
-      }
-    }
-
-    &:nth-child(3){
-      span:before {  
-        content: "3";
-        left: 15%;
-      }
-    }
-
-    /*&:nth-child(4){
-      span:before {  
-        content: "1";
-        left: 19%;
-      }
-    }*/
 
     &:first-child:after{    
       right: -18px;
@@ -159,30 +125,5 @@ $color-note-0to10-vert : #009446;
       border-left: 18px solid transparent;
       position: absolute;
     }
-
-    &:last-child{
-      margin-right: 0 !important;
-    }
-
-  }
-}
-
-.active-menu{
-  background-color: $color-menu-active !important;
-
-  &:after{    
-    border-top-color: $color-menu-active !important;
-  }
-  &:before{    
-    border-bottom-color: $color-menu-active !important;
-  }
-
-}
-
-@for $i from 0 through 11 {
-  .content-0t10:nth-child(#{$i}):before{
-    content : "#{$i - 1}";    
-    position: absolute;
-    margin-top: -23px;
   }
 }

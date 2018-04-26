@@ -36,8 +36,8 @@ class DefaultController extends Controller
     public function _init($request)
     {
         try {
-
-            $guidesTMP = '{"2444":"Sarah SCAGLIONE","1989":"Julien BALDY"}';
+            $guidesTMP  = '{"2444":"Sarah SCAGLIONE","1989":"Julien BALDY"}';
+            $cieTMP     = '{"0007":"MALASYA AIRLINE","0009":"AIR FRANCE"}';
 
             if(!$this->container->get('session')->isStarted())
             {
@@ -48,8 +48,11 @@ class DefaultController extends Controller
             $session = $this->get('session');
             $session->set('currentDate', date("Y-m-d H:i:s"));
             $session->set('guidesTMP', $guidesTMP);
+            $session->set('cieTMP', $cieTMP);
             $session->set('marque', $request->query->get('marque'));
             $session->set('typeQds', $request->query->get('typeQds'));
+
+
         } catch (Exception $e) {
             return new Response("Error : " . $e->getMessage());
         }
@@ -148,6 +151,7 @@ class DefaultController extends Controller
             $idStep                 = $step->getIdstep();
             $titleStep              = $step->getSteptitle();
             $guidesTMP              = json_decode($session->get('guidesTMP'));
+            $cieTMP                 = json_decode($session->get('cieTMP'));
 
             //je garde le titre du step de coté
             array_push($arrayFinal, $titleStep);
@@ -174,17 +178,19 @@ class DefaultController extends Controller
 
                 if($blockMultiple > 1)
                 {
-                    //condition pour block multiple, 7 est à remplacer en dynamic
-                    if($idBlock == 7)
-                    {
-                        $nb = 1;
+                    $nb = 1;
 
+                    $blockTitleTMP = $blockTitle;
+
+                    if(strpos($blockTitle, '[nomTourLeader]') !== false)
+                    {
+                    
                         //pour chaque guide
                         foreach ($guidesTMP as $key => $value) {
-                            $blockTitleTMP = $blockTitle;
+
                             $blockTitleTMP = str_replace("[nomTourLeader]", $value, $blockTitle);
-                            $arrayBlock['blockTitle'] = $blockTitleTMP;
                             $arrayBlock['guideID']    = $key;
+                            $arrayBlock['blockTitle'] = $blockTitleTMP;
 
                             foreach ($questions as $question) {
 
@@ -214,6 +220,48 @@ class DefaultController extends Controller
                                 $arrayQuestion['responseIDQuestion']    = $idReponse . "_" . $nb;
                                 $arrayBlock[$idQuestion]    = $arrayQuestion;
                             }
+
+                            $nb = $nb + 1;
+                            array_push($arrayFinal, $arrayBlock);
+                        }
+                    }else if(strpos($blockTitle, '[nomCIE]') !== false)
+                    {
+
+                         foreach ($cieTMP as $key => $value) {
+
+                            $blockTitleTMP = str_replace("[nomCIE]", $value, $blockTitle);
+                            $arrayBlock['cieID']    = $key;
+                            $arrayBlock['blockTitle'] = $blockTitleTMP;
+
+                            foreach ($questions as $question) {
+
+                                $arrayQuestion                          = array();
+                                $idQuestion                             = $question->getIdquestion();
+                                $headerQuestion                         = $question->getQuestionheader();
+                                $titleQuestion                          = $question->getQuestiontitle();
+                                $typeQuestion                           = $question->getQuestiontype();
+                                $choiceQuestion                         = $question->getQuestionchoice();
+                                $mandatoryQuestion                      = $question->getQuestionmandatory();
+                                $orderQuestion                          = $question->getQuestionorder();
+                                $visibleQuestion                        = $question->getQuestionvisible();
+                                $responseIDQuestion                     = $question->getResponseid();
+
+                                $arrayQuestion['idQuestion']            = $idQuestion;
+                                $arrayQuestion['headerQuestion']        = $headerQuestion;
+                                $arrayQuestion['titleQuestion']         = $titleQuestion;
+                                $arrayQuestion['typeQuestion']          = $typeQuestion;
+                                $arrayQuestion['choiceQuestion']        = $choiceQuestion;
+                                $arrayQuestion['mandatoryQuestion']     = $mandatoryQuestion;
+                                $arrayQuestion['orderQuestion']         = $orderQuestion;
+                                $arrayQuestion['visibleQuestion']       = $visibleQuestion;
+
+                                $splitId = explode('_', $responseIDQuestion);
+                                $idReponse = $splitId[0];
+
+                                $arrayQuestion['responseIDQuestion']    = $idReponse . "_" . $nb;
+                                $arrayBlock[$idQuestion]    = $arrayQuestion;
+                            }
+                            
                             $nb = $nb + 1;
                             array_push($arrayFinal, $arrayBlock);
                         }
@@ -294,6 +342,7 @@ class DefaultController extends Controller
 
                     //j'explode la key au niveau des trois underscores
                     $listValue = explode("___", $key);
+
                     //je récupe que l'id reponse
                     $responseID = $listValue[0];
                     
@@ -302,12 +351,18 @@ class DefaultController extends Controller
                         $responseID = str_replace('_', '', $listValue[0]);
                     }
 
+                    //si c'est un id cie
+                    if(strpos($responseID, 'cod_cie') !== false){
+                        $responseID = str_replace('_', '', $listValue[0]);
+                    }
+
                     //je prefix avec "set"
                     $functionName = "set".$responseID;
+
                     //je regarde si la methode exist dans ma classe entity
                     if(method_exists($oQds,$functionName)) 
                     {
-                         var_dump($functionName);
+                        var_dump($functionName);
                         //elle existe alors je l'utilise pour setter la value
                         $oQds->$functionName($value); 
                         $em->persist($oQds);
