@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container ">
+<div class="">
     <div class="row ">
         <div class="box-form col-md-12 col-sm-12 col-xs-12 col-lg-12">
             <form class="col-md-12 col-sm-12" id="form-qds" method="POST" action="{{path('saveForm')}}">
 
-                <div class="box-form-content col-md-12  col-sm-12  ">
+                <div class="box-form-content col-md-12 col-sm-12">
                     {% for key,val in arrayStep %}
  
                        {% if loop.first %}
@@ -20,10 +20,10 @@
                         {% for key,val in val %}
                         </br>
                             {% if loop.first %} 
-                                <div class="box-form-{{etat}}">   
+                                <div class="box-form-{{etat}} box-form">   
                             {% else %}    
                                 <h3>{{ val.blockTitle }}</h3>
-
+                                <hr class="hr-nord hr-title">
                                 {% if val.guideID is defined %}
                                     <input type="hidden" value="{{ val.guideID }}" name="id_tl_{{ nb_guide }}___guideID" id="{{ val.idBlock }}"/>
                                     {% set nb_guide = nb_guide + 1 %} 
@@ -46,7 +46,7 @@
                                                         </div>
                                                     {% endif %}
                                                     {% if value.typeQuestion != "TEXT" %}
-                                                        <div class="col-md-5 col-sm-6 col-xc-6">
+                                                        <div class="col-md-5 col-sm-4 col-xs-10 box-title-question">
                                                             <label>{{ value.titleQuestion }}</label>
                                                         </div>
                                                     {% endif %}

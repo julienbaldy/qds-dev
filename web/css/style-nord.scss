@@ -18,6 +18,21 @@ $color-number-step-menu : #b8dde3;
 $color-note-0to10-orange : #ff9219;
 $color-note-0to10-vert : #009446;
 
+  /* icons */
+$path-to-icon : "/img/nord/icons/";
+$icon-internet : "#{$path-to-icon}iconmonstr-computer-11.png";
+$icon-marque : "#{$path-to-icon}66nord-logo.png";
+$icon-conseiller : "#{$path-to-icon}iconmonstr-user-1.png";
+$icon-documents : "#{$path-to-icon}iconmonstr-file-10.png";
+$icon-transport : "#{$path-to-icon}iconmonstr-airport-1.png";
+$icon-accueil : "#{$path-to-icon}iconmonstr-handshake-5.png";
+$icon-guide : "#{$path-to-icon}iconmonstr-user-31.png";
+$icon-hebergements : "#{$path-to-icon}iconmonstr-home-6.png";
+$icon-repas : "#{$path-to-icon}iconmonstr-fast-food-chinese.png";
+$icon-logistique : "#{$path-to-icon}iconmonstr-airport-15.png";
+$icon-programme : "#{$path-to-icon}iconmonstr-delivery-10.png";
+
+
 /**********************
 *
 *
@@ -126,4 +141,62 @@ $color-note-0to10-vert : #009446;
       position: absolute;
     }
   }
+}
+
+.icon-title-h3{
+  width: 33px;
+  height: 33px;
+  background-size: 100%;
+  border: none;
+  display: inline-block;
+  background-position: center;
+  background-repeat: no-repeat;
+  float: left;
+  margin-top: 13px;
+  margin-right: 10px;
+}
+
+#icon-internet{
+  background-image: url($icon-internet);
+}
+
+#icon-marque{
+  background-image: url($icon-marque);
+  width: 44px !important;
+}
+
+#icon-conseiller{
+  background-image: url($icon-conseiller);
+}
+
+#icon-documents{
+  background-image: url($icon-documents);
+}
+
+#icon-transport{
+  background-image: url($icon-transport);
+}
+
+#icon-accueil{
+  background-image: url($icon-accueil);
+}
+
+#icon-guide{
+  background-image: url($icon-guide);
+}
+
+#icon-hebergements{
+  background-image: url($icon-hebergements);
+}
+
+#icon-repas{
+  background-image: url($icon-repas);
+}
+
+#icon-logistique{
+  background-image: url($icon-logistique);
+}
+
+#icon-programme{
+  background-image: url($icon-programme);
 }

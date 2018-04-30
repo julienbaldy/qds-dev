@@ -89,30 +89,39 @@ class DefaultController extends Controller
         try {
             $session        = $this->get('session');
             $typeQds        = $session->get('typeQds');
+            $marque         = $session->get('marque');
+
             $patternRepo    = $this->getDoctrine()->getRepository(Qds2Pattern::class);
             $stepRepo       = $this->getDoctrine()->getRepository(Qds2Step::class);
             
-            //Manque le concept de marque
-            $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
-            $arrayStep      = array();
-            $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
+            if($marque == "66-nord")
+            {
+                //Manque le concept de marque
+                $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
+                $arrayStep      = array();
+                $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
 
-            $session->set('qdspattern', $pattern);
+                $session->set('qdspattern', $pattern);
 
-            //récupérer les step automatiquement suivant le type de questionnaire
-            foreach ($steps as $value) {
-                $step = $this->_getStep($pattern , $value->getSteporder());
-                array_push($arrayStep, $step);
+                //récupérer les step automatiquement suivant le type de questionnaire
+                foreach ($steps as $value) {
+                    $step = $this->_getStep($pattern , $value->getSteporder());
+                    array_push($arrayStep, $step);
+                }
+
+                /*$stepOne        = $this->_getStep($pattern , 1); //AVANT DEPART
+                $stepTwo        = $this->_getStep($pattern , 2); //PENDANT VOYAGE
+                $stepThree      = $this->_getStep($pattern , 3); //APRES VOYAGE
+                $stepFour       = $this->_getStep($pattern , 4); //REMERCIEMNET*/
+
+                //A changer par la suite, avoir un template-qds.html.twig
+                return $this->render('@App/qds/nord/qds-nord.html.twig', 
+                    array('arrayStep' => $arrayStep));
             }
 
-            /*$stepOne        = $this->_getStep($pattern , 1); //AVANT DEPART
-            $stepTwo        = $this->_getStep($pattern , 2); //PENDANT VOYAGE
-            $stepThree      = $this->_getStep($pattern , 3); //APRES VOYAGE
-            $stepFour       = $this->_getStep($pattern , 4); //REMERCIEMNET*/
-
-            //A changer par la suite, avoir un template-qds.html.twig
-            return $this->render('@App/qds/qds-nord.html.twig', 
-                array('arrayStep' => $arrayStep));
+            return $this->render('@App/qds/nord/qds-nord.html.twig', 
+                    array('arrayStep' => ""));
+            
         } catch (Exception $e) {
             return new Response("Error : " . $e->getMessage());
         }

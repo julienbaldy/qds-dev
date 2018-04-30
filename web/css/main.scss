@@ -75,33 +75,24 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > label:hover ~ input:checked ~ label, /* light la selection courrante */
 .rating > input:checked ~ label:hover ~ label { color: $color-star-full;  } 
 
-#messageSF > span:not(.first-sf){
-    font-size: 1.15em;
-    font-weight: 700;
+#messageSF {
+  > span{
+    font-size: 14px;
+    font-weight: 500;
     color: white;
     float: left;
-    display: none;
-    width: 234px;
+    width: 210px;
     text-align: center;
     height: 28px;
     margin-top: 12px;
     margin-left: 22px;
-    padding-top: 2.5px;
+    padding-top: 3.5px;
+    &:not(.first-sf){
+      display: none;
+    }
+  }
 }
 
-.first-sf{
-  font-size: 1.0em;
-  padding-top: 1.4px;
-  font-weight: 700;
-  color: white;
-  float: left;
-  width: 234px;
-  text-align: center;
-  height: 28px;
-  margin-top: 12px;
-  margin-left: 22px;
-  padding-top: 3.5px;
-}
 
 
 .active{
@@ -128,6 +119,12 @@ h1 { font-size: 1.5em; margin: 10px; }
 	display:none;
 }
 
+.box-form{
+  >h3{
+    font-size: 21px;
+  }
+}
+
 .box-form-active{
 	display:block;
 }
@@ -140,13 +137,24 @@ h1 { font-size: 1.5em; margin: 10px; }
 	display:none;
 }
 
-.box-rating > .rating > label{
-	font-size: 11.2px;
+.box-rating {
+  >.rating {
+    >label{
+  	 font-size: 9.8px;
+    }
+  }
+}
+
+.box-title-question{
+  /*white-space: nowrap;*/
+  >label{
+    font-weight: 500 !important;
+  }
 }
 
 .box-rating{
-	width: 483px;
-  min-width: 460px;
+	width: 444px;
+  min-width: 444px;
 }
 
 .question-text{
@@ -164,6 +172,9 @@ h1 { font-size: 1.5em; margin: 10px; }
 
 .box-rating{
   display: flex;
+  >fieldset,>#messageSF{
+    margin-top: -12px;
+  }
 }
 
 .no-padding-margin{
@@ -254,7 +265,11 @@ h1 { font-size: 1.5em; margin: 10px; }
   display: none;
 }
 
-
+.hr-title{
+  margin-top: 0px;
+  margin-bottom: 22px;
+  border-top: 2px solid $color-background-blue;
+}
 
 #menu-step{
   opacity: 0.94;
