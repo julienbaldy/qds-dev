@@ -9,6 +9,7 @@ use AppBundle\Entity\Qds2Question;
 use AppBundle\Entity\Qds2Step;
 use AppBundle\Entity\Qds2Block;
 use AppBundle\Entity\Qds2;
+use AppBundle\Controller\Consultation;
 use \Datetime;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,6 +52,11 @@ class DefaultController extends Controller
             $session->set('cieTMP', $cieTMP);
             $session->set('marque', $request->query->get('marque'));
             $session->set('typeQds', $request->query->get('typeQds'));
+            $session->set('mode', $request->query->get('mode'));
+
+            //fake num dos & num pass
+            $session->set('numDos', "TESTNUMDOS98465");
+            $session->set('numPass', "TESTNUMPASS0193");
 
 
         } catch (Exception $e) {
@@ -89,39 +95,72 @@ class DefaultController extends Controller
         try {
             $session        = $this->get('session');
             $typeQds        = $session->get('typeQds');
-            $marque         = $session->get('marque');
-
+            $marque         = $session->get('marque');;
+            $mode           = $session->get('mode');
+                    
             $patternRepo    = $this->getDoctrine()->getRepository(Qds2Pattern::class);
             $stepRepo       = $this->getDoctrine()->getRepository(Qds2Step::class);
-            
-            if($marque == "66-nord")
+
+            if($mode == 'consul')
             {
-                //Manque le concept de marque
-                $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
-                $arrayStep      = array();
-                $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
 
-                $session->set('qdspattern', $pattern);
+                if($marque == "66-nord")
+                {
+                    //Manque le concept de marque
+                    $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
+                    $arrayStep      = array();
+                    $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
 
-                //récupérer les step automatiquement suivant le type de questionnaire
-                foreach ($steps as $value) {
-                    $step = $this->_getStep($pattern , $value->getSteporder());
-                    array_push($arrayStep, $step);
+                    $session->set('qdspattern', $pattern);
+
+                    //récupérer les step automatiquement suivant le type de questionnaire
+                    foreach ($steps as $value) {
+                        $step = $this->_getStep($pattern , $value->getSteporder(), $mode);
+                        array_push($arrayStep, $step);
+                    }
+
+                    /*var_dump($arrayStep);
+                    die;*/
+                    return $this->render('@App/qds/nord/consultation.html.twig', 
+                        array('arrayStep' => $arrayStep));
                 }
-
-                /*$stepOne        = $this->_getStep($pattern , 1); //AVANT DEPART
-                $stepTwo        = $this->_getStep($pattern , 2); //PENDANT VOYAGE
-                $stepThree      = $this->_getStep($pattern , 3); //APRES VOYAGE
-                $stepFour       = $this->_getStep($pattern , 4); //REMERCIEMNET*/
-
-                //A changer par la suite, avoir un template-qds.html.twig
-                return $this->render('@App/qds/nord/qds-nord.html.twig', 
-                    array('arrayStep' => $arrayStep));
+                else
+                {
+                    return $this->render('@App/404.html.twig', 
+                        array('arrayStep' => ""));
+                }
             }
+            else
+            {
+                if($marque == "66-nord")
+                {
+                    //Manque le concept de marque
+                    $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
+                    $arrayStep      = array();
+                    $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
 
-            return $this->render('@App/qds/nord/qds-nord.html.twig', 
-                    array('arrayStep' => ""));
-            
+                    $session->set('qdspattern', $pattern);
+
+                    //récupérer les step automatiquement suivant le type de questionnaire
+                    foreach ($steps as $value) {
+                        $step = $this->_getStep($pattern , $value->getSteporder(), "edit");
+                        array_push($arrayStep, $step);
+                    }
+
+                    /*$stepOne        = $this->_getStep($pattern , 1); //AVANT DEPART
+                    $stepTwo        = $this->_getStep($pattern , 2); //PENDANT VOYAGE
+                    $stepThree      = $this->_getStep($pattern , 3); //APRES VOYAGE
+                    $stepFour       = $this->_getStep($pattern , 4); //REMERCIEMNET*/
+
+                    //A changer par la suite, avoir un template-qds.html.twig
+                    return $this->render('@App/qds/nord/qds-nord.html.twig', 
+                        array('arrayStep' => $arrayStep));
+                }else
+                {
+                    return $this->render('@App/404.html.twig', 
+                        array('arrayStep' => ""));
+                }
+            }
         } catch (Exception $e) {
             return new Response("Error : " . $e->getMessage());
         }
@@ -136,7 +175,7 @@ class DefaultController extends Controller
     *       $stepOrder  - le numéro/ordre du step à récupe
     *   @return array $arrayFinal  
     */
-    public function _getStep($pattern , $stepOrder)
+    public function _getStep($pattern , $stepOrder, $mode)
     {
         try {
          
@@ -154,6 +193,7 @@ class DefaultController extends Controller
             $blockRepo              = $this->getDoctrine()->getRepository(Qds2Block::class);
             $stepRepo               = $this->getDoctrine()->getRepository(Qds2Step::class);
             $questionRepo           = $this->getDoctrine()->getRepository(Qds2Question::class);
+            $reponseRepo            = $this->getDoctrine()->getRepository(Qds2::class);
 
             //je récupé le step voulu
             $step                   = $stepRepo->findOneBy(array('idpattern' => $idPattern, 'steporder' => $stepOrder));
@@ -161,12 +201,15 @@ class DefaultController extends Controller
             $titleStep              = $step->getSteptitle();
             $guidesTMP              = json_decode($session->get('guidesTMP'));
             $cieTMP                 = json_decode($session->get('cieTMP'));
+            $numDosTMP              = $session->get('numDos');
+            $numpassTMP             = $session->get('numPass');
 
             //je garde le titre du step de coté
             array_push($arrayFinal, $titleStep);
 
             //je récupe le block 
-            $blocks = $blockRepo->findBy(array('idstep' => $idStep), array('blockorder' => 'ASC'));
+            $blocks         = $blockRepo->findBy(array('idstep' => $idStep), array('blockorder' => 'ASC'));
+            $responseResult = $reponseRepo->findOneBy(array('numPas' => $numpassTMP, 'numDos' => $numDosTMP));
 
             //pour tous les blocks
             foreach ($blocks as $block) 
@@ -193,7 +236,6 @@ class DefaultController extends Controller
 
                     if(strpos($blockTitle, '[nomTourLeader]') !== false)
                     {
-                    
                         //pour chaque guide
                         foreach ($guidesTMP as $key => $value) {
 
@@ -227,6 +269,20 @@ class DefaultController extends Controller
                                 $idReponse = $splitId[0];
 
                                 $arrayQuestion['responseIDQuestion']    = $idReponse . "_" . $nb;
+
+                                if($mode == "consul")
+                                {
+                                    //je prefix avec "set"
+                                    $functionName = "get".$idReponse . "" . $nb;
+                                     
+
+                                    //je regarde si la methode exist dans ma classe entity
+                                    if(method_exists($responseResult,$functionName)) 
+                                    {
+                                        $arrayQuestion['response'] = $responseResult->$functionName();
+                                    }
+                                }
+
                                 $arrayBlock[$idQuestion]    = $arrayQuestion;
                             }
 
@@ -235,7 +291,6 @@ class DefaultController extends Controller
                         }
                     }else if(strpos($blockTitle, '[nomCIE]') !== false)
                     {
-
                          foreach ($cieTMP as $key => $value) {
 
                             $blockTitleTMP = str_replace("[nomCIE]", $value, $blockTitle);
@@ -268,6 +323,19 @@ class DefaultController extends Controller
                                 $idReponse = $splitId[0];
 
                                 $arrayQuestion['responseIDQuestion']    = $idReponse . "_" . $nb;
+
+                                if($mode == "consul")
+                                {
+                                    //je prefix avec "set"
+                                    $functionName = "get".$idReponse . "" . $nb;
+
+                                    //je regarde si la methode exist dans ma classe entity
+                                    if(method_exists($responseResult,$functionName)) 
+                                    {
+                                        $arrayQuestion['response'] = $responseResult->$functionName();
+                                    }
+                                }
+
                                 $arrayBlock[$idQuestion]    = $arrayQuestion;
                             }
                             
@@ -299,6 +367,19 @@ class DefaultController extends Controller
                         $arrayQuestion['orderQuestion']         = $orderQuestion;
                         $arrayQuestion['visibleQuestion']       = $visibleQuestion;
                         $arrayQuestion['responseIDQuestion']    = $responseIDQuestion;
+
+                        if($mode == "consul")
+                        {
+                            //je prefix avec "set"
+                            $functionName = "get".$responseIDQuestion;
+
+                            //je regarde si la methode exist dans ma classe entity
+                            if(method_exists($responseResult,$functionName)) 
+                            {
+                                $arrayQuestion['response'] = $responseResult->$functionName();
+                                //var_dump($arrayQuestion['response']);
+                            }
+                        }
 
                         if($typeQuestion == "QCM2")
                         {
@@ -371,7 +452,7 @@ class DefaultController extends Controller
                     //je regarde si la methode exist dans ma classe entity
                     if(method_exists($oQds,$functionName)) 
                     {
-                        var_dump($functionName);
+                        //var_dump($functionName);
                         //elle existe alors je l'utilise pour setter la value
                         $oQds->$functionName($value); 
                         $em->persist($oQds);
