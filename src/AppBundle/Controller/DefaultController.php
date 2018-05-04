@@ -37,8 +37,6 @@ class DefaultController extends Controller
     public function _init($request)
     {
         try {
-            $guidesTMP  = '{"2444":"Sarah SCAGLIONE","1989":"Julien BALDY"}';
-            $cieTMP     = '{"0007":"MALASYA AIRLINE","0009":"AIR FRANCE"}';
 
             if(!$this->container->get('session')->isStarted())
             {
@@ -48,21 +46,23 @@ class DefaultController extends Controller
 
             $session = $this->get('session');
             $session->set('currentDate', date("Y-m-d H:i:s"));
-            $session->set('guidesTMP', $guidesTMP);
-            $session->set('cieTMP', $cieTMP);
             $session->set('marque', $request->query->get('marque'));
             $session->set('typeQds', $request->query->get('typeQds'));
             $session->set('mode', $request->query->get('mode'));
+            $session->set('arrayModes', array("create","edit","consult"));
 
-            //fake num dos & num pass
+            //Bouchons
             $session->set('numDos', "TESTNUMDOS98465");
+            $session->set('idpackdate' , "132");
             $session->set('numPass', "TESTNUMPASS0193");
-
+            $guidesTMP  = '{"2444":"Sarah SCAGLIONE","1989":"Julien BALDY"}';
+            $session->set('guidesTMP', $guidesTMP);
+            $cieTMP     = '{"0007":"MALASYA AIRLINE","0009":"AIR FRANCE"}';
+            $session->set('cieTMP', $cieTMP);
 
         } catch (Exception $e) {
             return new Response("Error : " . $e->getMessage());
         }
-
     }
 
 
@@ -72,7 +72,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         date_default_timezone_set('Europe/Paris');
-/*        if(!isset($session))
+        /*if(!isset($session))
         {
             $session = $request->getSession();
         }
@@ -95,72 +95,76 @@ class DefaultController extends Controller
         try {
             $session        = $this->get('session');
             $typeQds        = $session->get('typeQds');
-            $marque         = $session->get('marque');;
+            $marque         = $session->get('marque');
             $mode           = $session->get('mode');
+            $arrayModes     = $session->get('arrayModes');
                     
             $patternRepo    = $this->getDoctrine()->getRepository(Qds2Pattern::class);
             $stepRepo       = $this->getDoctrine()->getRepository(Qds2Step::class);
 
-            if($mode == 'consul')
+            if(in_array($mode, $arrayModes))
             {
-
-                if($marque == "66-nord")
+                if($mode == 'edit')
                 {
-                    //Manque le concept de marque
-                    $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
-                    $arrayStep      = array();
-                    $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
+                    if($marque == "66-nord")
+                    {
+                        //Manque le concept de marque
+                        $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
+                        $arrayStep      = array();
+                        $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
 
-                    $session->set('qdspattern', $pattern);
+                        $session->set('qdspattern', $pattern);
 
-                    //récupérer les step automatiquement suivant le type de questionnaire
-                    foreach ($steps as $value) {
-                        $step = $this->_getStep($pattern , $value->getSteporder(), $mode);
-                        array_push($arrayStep, $step);
+                        //récupérer les step automatiquement suivant le type de questionnaire
+                        foreach ($steps as $value) {
+                            $step = $this->_getStep($pattern , $value->getSteporder(), $mode);
+                            array_push($arrayStep, $step);
+                        }
+
+                        /*var_dump($arrayStep);
+                        die;*/
+                        return $this->render('@App/qds/nord/edition.html.twig', array('arrayStep' => $arrayStep));
                     }
-
-                    /*var_dump($arrayStep);
-                    die;*/
-                    return $this->render('@App/qds/nord/consultation.html.twig', 
-                        array('arrayStep' => $arrayStep));
+                    else
+                    {
+                        return $this->render('@App/404.html.twig', array('arrayStep' => ""));
+                    }
                 }
                 else
                 {
-                    return $this->render('@App/404.html.twig', 
-                        array('arrayStep' => ""));
-                }
-            }
-            else
-            {
-                if($marque == "66-nord")
-                {
-                    //Manque le concept de marque
-                    $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
-                    $arrayStep      = array();
-                    $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
+                    if($marque == "66-nord")
+                    {
+                        //Manque le concept de marque
+                        $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
+                        $arrayStep      = array();
+                        $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
 
-                    $session->set('qdspattern', $pattern);
+                        $session->set('qdspattern', $pattern);
 
-                    //récupérer les step automatiquement suivant le type de questionnaire
-                    foreach ($steps as $value) {
-                        $step = $this->_getStep($pattern , $value->getSteporder(), "edit");
-                        array_push($arrayStep, $step);
+                        //récupérer les step automatiquement suivant le type de questionnaire
+                        foreach ($steps as $value) {
+                            $step = $this->_getStep($pattern , $value->getSteporder(), $mode);
+                            array_push($arrayStep, $step);
+                        }
+
+                        /*$stepOne        = $this->_getStep($pattern , 1); //AVANT DEPART
+                        $stepTwo        = $this->_getStep($pattern , 2); //PENDANT VOYAGE
+                        $stepThree      = $this->_getStep($pattern , 3); //APRES VOYAGE
+                        $stepFour       = $this->_getStep($pattern , 4); //REMERCIEMNET*/
+
+                        //A changer par la suite, avoir un template-qds.html.twig
+                        return $this->render('@App/qds/nord/qds-nord.html.twig', 
+                            array('arrayStep' => $arrayStep));
+                    }else
+                    {
+                        return $this->render('@App/404.html.twig', array('errorMessage' => "marque inexistante"));
                     }
-
-                    /*$stepOne        = $this->_getStep($pattern , 1); //AVANT DEPART
-                    $stepTwo        = $this->_getStep($pattern , 2); //PENDANT VOYAGE
-                    $stepThree      = $this->_getStep($pattern , 3); //APRES VOYAGE
-                    $stepFour       = $this->_getStep($pattern , 4); //REMERCIEMNET*/
-
-                    //A changer par la suite, avoir un template-qds.html.twig
-                    return $this->render('@App/qds/nord/qds-nord.html.twig', 
-                        array('arrayStep' => $arrayStep));
-                }else
-                {
-                    return $this->render('@App/404.html.twig', 
-                        array('arrayStep' => ""));
-                }
+                }  
+            }else
+            {
+                return $this->render('@App/404.html.twig', array('errorMessage' => "Mode inexistant : mode=create, mode=edit, mode=consult"));
             }
+
         } catch (Exception $e) {
             return new Response("Error : " . $e->getMessage());
         }
@@ -211,6 +215,8 @@ class DefaultController extends Controller
             $blocks         = $blockRepo->findBy(array('idstep' => $idStep), array('blockorder' => 'ASC'));
             $responseResult = $reponseRepo->findOneBy(array('numPas' => $numpassTMP, 'numDos' => $numDosTMP));
 
+            /*var_dump($blockRepo->findAll());
+            die;*/
             //pour tous les blocks
             foreach ($blocks as $block) 
             {
@@ -219,11 +225,12 @@ class DefaultController extends Controller
                 $blockTitle                     = $block->getBlocktitle();
                 $blockMultiple                  = $block->getBlockmultiple();
                 $blockOrder                     = $block->getBlockorder();
-
+                $blockIcon                      = $block->getBlockIcon();
                 $arrayBlock['idBlock']          = $idBlock;
                 $arrayBlock['blockTitle']       = $blockTitle;
                 $arrayBlock['blockMultiple']    = $blockMultiple;
                 $arrayBlock['blockOrder']       = $blockOrder;
+                $arrayBlock['blockIcon']        = $blockIcon;
 
                 //je cherche les questions du bloc
                 $questions = $questionRepo->findBy(array('idblock' => $idBlock));
@@ -270,7 +277,7 @@ class DefaultController extends Controller
 
                                 $arrayQuestion['responseIDQuestion']    = $idReponse . "_" . $nb;
 
-                                if($mode == "consul")
+                                if($mode == "edit")
                                 {
                                     //je prefix avec "set"
                                     $functionName = "get".$idReponse . "" . $nb;
@@ -280,6 +287,9 @@ class DefaultController extends Controller
                                     if(method_exists($responseResult,$functionName)) 
                                     {
                                         $arrayQuestion['response'] = $responseResult->$functionName();
+                                    }else
+                                    {
+                                        $arrayQuestion['response'] = "";
                                     }
                                 }
 
@@ -324,7 +334,7 @@ class DefaultController extends Controller
 
                                 $arrayQuestion['responseIDQuestion']    = $idReponse . "_" . $nb;
 
-                                if($mode == "consul")
+                                if($mode == "edit")
                                 {
                                     //je prefix avec "set"
                                     $functionName = "get".$idReponse . "" . $nb;
@@ -333,6 +343,9 @@ class DefaultController extends Controller
                                     if(method_exists($responseResult,$functionName)) 
                                     {
                                         $arrayQuestion['response'] = $responseResult->$functionName();
+                                    }else
+                                    {
+                                        $arrayQuestion['response'] = "";
                                     }
                                 }
 
@@ -368,7 +381,7 @@ class DefaultController extends Controller
                         $arrayQuestion['visibleQuestion']       = $visibleQuestion;
                         $arrayQuestion['responseIDQuestion']    = $responseIDQuestion;
 
-                        if($mode == "consul")
+                        if($mode == "edit")
                         {
                             //je prefix avec "set"
                             $functionName = "get".$responseIDQuestion;
@@ -378,6 +391,9 @@ class DefaultController extends Controller
                             {
                                 $arrayQuestion['response'] = $responseResult->$functionName();
                                 //var_dump($arrayQuestion['response']);
+                            }else
+                            {
+                                $arrayQuestion['response'] = "";
                             }
                         }
 
@@ -415,9 +431,10 @@ class DefaultController extends Controller
             $oQds           = new Qds2();
             $date           = new \DateTime();
 
-            $numpassTMP     = "TESTNUMPASS0193";
-            $numdosTMP      = "TESTNUMDOS98465";
-            $idpackdateTMP  = "132";
+            $numdosTMP      = $session->get('numDos');
+            $numpassTMP     = $session->get('numPass');
+            $idpackdateTMP  = $session->get('idpackdate');
+
             $form           = $request->request->all();
 
             $oQds->setDtcreate($date);

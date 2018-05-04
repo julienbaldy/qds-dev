@@ -191,46 +191,6 @@ $(document).ready(function()
     $("#menu-step > li:nth-child("+ iIndex +")").addClass("active-menu");
   }
 
-  var sMarque = getUrlParameter('marque');
-  if(sMarque == "66-nord")
-  {
-    $(".box-form > h3").each(function(){
-      if($(this).is(':contains("Qu\'avez-vous pensé du site internet")')){
-        $(this).before("<div id='icon-internet' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("Pourquoi avez-vous choisi")')){
-        $(this).before("<div id='icon-marque' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("votre conseiller voyage")')){
-        $(this).before("<div id='icon-conseiller' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("vos documents de voyage")')){
-        $(this).before("<div id='icon-documents' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("transport aérien")')){
-        $(this).before("<div id='icon-transport' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("accueil sur place")')){
-        $(this).before("<div id='icon-accueil' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("votre guide accompagnateur")')){
-        $(this).before("<div id='icon-guide' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("des hébergements")')){
-        $(this).before("<div id='icon-hebergements' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("des repas")')){
-        $(this).before("<div id='icon-repas' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("de la logistique")')){
-        $(this).before("<div id='icon-logistique' class='icon-title-h3'></div>");
-      }
-      else if($(this).is(':contains("du programme")')){
-        $(this).before("<div id='icon-programme' class='icon-title-h3'></div>");
-      }
-    });
-  }
-
   function getUrlParameter(sParam) {
       var sPageURL = decodeURIComponent(window.location.search.substring(1)),
           sURLVariables = sPageURL.split('&'),

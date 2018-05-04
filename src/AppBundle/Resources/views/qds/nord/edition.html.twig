@@ -67,7 +67,6 @@
                                                         <div id="messageSF">
 
 															    {% if value.response  >  0  %}
-
                                                             		<span class="first-sf " style="display:none">Choisissez votre note</span>
 
 															    	{% if value.response  == 1 %}
@@ -99,7 +98,6 @@
 	                                                				{% else %}
 		                                                            	<span>Très satisfait</span>
 	                                                				{% endif %}
-
 	                                                			{% else %}
 		                                                            <span class="first-sf">Choisissez votre note</span>
 		                                                            <span>pas du tout satisfait</span>
@@ -153,10 +151,22 @@
                                                     <div class="box-0to10 row">
 
                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
-                                                            {% for i in 0..10 %}
-                                                                <div class="col-md-1 col-sm-1 col-xs-1 content-0t10"><input type="radio" value="{{ i }}" name="{{ value.responseIDQuestion }}___0to10" data-idresponse="{{ value.responseIDQuestion }}"/></div>
-                                                            {% endfor %}
-                                                        </div>
+
+                                                        	{% if value.response  >= 0 %}
+	                                                            {% for i in 0..10 %}
+	                                                            	{% if value.response  == i %}
+	                                                                	<div class="col-md-1 col-sm-1 col-xs-1 content-0t10"><input checked type="radio" value="{{ i }}" name="{{ value.responseIDQuestion }}___0to10" data-idresponse="{{ value.responseIDQuestion }}"/></div>
+	                                                            	{% else %}
+	                                                            		<div class="col-md-1 col-sm-1 col-xs-1 content-0t10"><input type="radio" value="{{ i }}" name="{{ value.responseIDQuestion }}___0to10" data-idresponse="{{ value.responseIDQuestion }}"/></div>
+	                                                            	{% endif %}
+	                                                            {% endfor %}
+                                                            {% else %}
+	                                                            {% for i in 0..10 %}
+	                                                            	<div class="col-md-1 col-sm-1 col-xs-1 content-0t10"><input type="radio" value="{{ i }}" name="{{ value.responseIDQuestion }}___0to10" data-idresponse="{{ value.responseIDQuestion }}"/></div>
+	                                                            {% endfor %}
+	                                                        {% endif %}
+
+	                                                        </div>
                                                     </div>
                                                 {% endif %}
 

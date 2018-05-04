@@ -49,6 +49,13 @@ class Qds2Block
      */
     private $idblock;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="blockicon", type="string", length=50)
+     */
+    private $blockicon;
+
     public function getIdstep(){
         return $this->idstep;
     }
@@ -89,6 +96,13 @@ class Qds2Block
         $this->idblock = $idblock;
     }
 
+    public function getBlockicon(){
+        return $this->blockicon;
+    }
+
+    public function setBlockicon($blockicon){
+        $this->blockicon = $blockicon;
+    }
 
 }
 

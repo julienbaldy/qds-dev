@@ -1,5 +1,6 @@
 
 {% block header %}
+	{% set mode = app.session.get('mode') %}
     <div class="container-fluid ">
       <div class="row ">
         <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 no-padding-margin">
@@ -15,9 +16,13 @@
         <div class="row no-padding-margin">
 	        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 	        	<div class="box-intro col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-	        		<p>Bonjour Julien BALDY [pas encore twiggé]</p>
-	        		<p>Vous venez de participer à un voyage organisé par 66°Nord, votre avis nous intéresse !</p>
-	        		<p>Dans le souci de mieux répondre à vos attentes et de vous proposer des voyages de qualité, nous vous remercions par avance de bien vouloir prendre quelques instants pour compléter le questionnaire ci-après</p>
+	        		{% if mode == "create" %}
+		        		<p>Bonjour Julien BALDY [pas encore twiggé]</p>
+		        		<p>Vous venez de participer à un voyage organisé par 66°Nord, votre avis nous intéresse !</p>
+		        		<p>Dans le souci de mieux répondre à vos attentes et de vous proposer des voyages de qualité, nous vous remercions par avance de bien vouloir prendre quelques instants pour compléter le questionnaire ci-après</p>
+		        	{% elseif mode == "edit" %}
+		        		<h3 style="text-align:center;">Mode <b>Edition</b> de QDS </h3>
+		        	{% endif %}
 	        	</div>
 	        </div>
         </div>
