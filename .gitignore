@@ -60,7 +60,7 @@
 /node_modules/.bin/webpack
 /node_modules/.bin/webpack-dev-server
 /node_modules/.bin/which
-/node_modules/.cache/babel-loader/7d45c026d54d2a262175e8013fe714b4ab97a506.json.gz
+/node_modules/.cache/
 /node_modules/.yarn-integrity
 /node_modules/@fortawesome/fontawesome/index.d.ts
 /node_modules/@fortawesome/fontawesome/index.es.js
