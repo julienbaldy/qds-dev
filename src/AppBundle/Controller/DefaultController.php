@@ -51,6 +51,14 @@ class DefaultController extends Controller
             $session->set('mode', $request->query->get('mode'));
             $session->set('arrayModes', array("create","edit","consult"));
 
+            $marque = $session->get('marque');
+            if ($marque == "66-nord") {
+                 $session->set('nomMarque', "66°Nord");
+            }
+
+
+
+
             //Bouchons
             $session->set('numDos', "TESTNUMDOS98465");
             $session->set('idpackdate' , "132");
@@ -232,8 +240,12 @@ class DefaultController extends Controller
                 $arrayBlock['blockOrder']       = $blockOrder;
                 $arrayBlock['blockIcon']        = $blockIcon;
 
+                if (strpos($blockTitle, '[nomMarque]') !== false) {
+                    $arrayBlock['blockTitle'] = $this->replaceNomMarque($blockTitle);
+                }
+
                 //je cherche les questions du bloc
-                $questions = $questionRepo->findBy(array('idblock' => $idBlock));
+                $questions = $questionRepo->findBy(array('idblock' => $idBlock), array('questionorder' => 'ASC'));
 
                 if($blockMultiple > 1)
                 {
@@ -301,59 +313,62 @@ class DefaultController extends Controller
                         }
                     }else if(strpos($blockTitle, '[nomCIE]') !== false)
                     {
-                         foreach ($cieTMP as $key => $value) {
+                        //Si pas de compagnie aérienne 
+                        if(sizeof($cieTMP) > 0){
+                            foreach ($cieTMP as $key => $value) {
 
-                            $blockTitleTMP = str_replace("[nomCIE]", $value, $blockTitle);
-                            $arrayBlock['cieID']    = $key;
-                            $arrayBlock['blockTitle'] = $blockTitleTMP;
+                                $blockTitleTMP = str_replace("[nomCIE]", $value, $blockTitle);
+                                $arrayBlock['cieID']    = $key;
+                                $arrayBlock['blockTitle'] = $blockTitleTMP;
 
-                            foreach ($questions as $question) {
+                                foreach ($questions as $question) {
 
-                                $arrayQuestion                          = array();
-                                $idQuestion                             = $question->getIdquestion();
-                                $headerQuestion                         = $question->getQuestionheader();
-                                $titleQuestion                          = $question->getQuestiontitle();
-                                $typeQuestion                           = $question->getQuestiontype();
-                                $choiceQuestion                         = $question->getQuestionchoice();
-                                $mandatoryQuestion                      = $question->getQuestionmandatory();
-                                $orderQuestion                          = $question->getQuestionorder();
-                                $visibleQuestion                        = $question->getQuestionvisible();
-                                $responseIDQuestion                     = $question->getResponseid();
+                                    $arrayQuestion                          = array();
+                                    $idQuestion                             = $question->getIdquestion();
+                                    $headerQuestion                         = $question->getQuestionheader();
+                                    $titleQuestion                          = $question->getQuestiontitle();
+                                    $typeQuestion                           = $question->getQuestiontype();
+                                    $choiceQuestion                         = $question->getQuestionchoice();
+                                    $mandatoryQuestion                      = $question->getQuestionmandatory();
+                                    $orderQuestion                          = $question->getQuestionorder();
+                                    $visibleQuestion                        = $question->getQuestionvisible();
+                                    $responseIDQuestion                     = $question->getResponseid();
 
-                                $arrayQuestion['idQuestion']            = $idQuestion;
-                                $arrayQuestion['headerQuestion']        = $headerQuestion;
-                                $arrayQuestion['titleQuestion']         = $titleQuestion;
-                                $arrayQuestion['typeQuestion']          = $typeQuestion;
-                                $arrayQuestion['choiceQuestion']        = $choiceQuestion;
-                                $arrayQuestion['mandatoryQuestion']     = $mandatoryQuestion;
-                                $arrayQuestion['orderQuestion']         = $orderQuestion;
-                                $arrayQuestion['visibleQuestion']       = $visibleQuestion;
+                                    $arrayQuestion['idQuestion']            = $idQuestion;
+                                    $arrayQuestion['headerQuestion']        = $headerQuestion;
+                                    $arrayQuestion['titleQuestion']         = $titleQuestion;
+                                    $arrayQuestion['typeQuestion']          = $typeQuestion;
+                                    $arrayQuestion['choiceQuestion']        = $choiceQuestion;
+                                    $arrayQuestion['mandatoryQuestion']     = $mandatoryQuestion;
+                                    $arrayQuestion['orderQuestion']         = $orderQuestion;
+                                    $arrayQuestion['visibleQuestion']       = $visibleQuestion;
 
-                                $splitId = explode('_', $responseIDQuestion);
-                                $idReponse = $splitId[0];
+                                    $splitId = explode('_', $responseIDQuestion);
+                                    $idReponse = $splitId[0];
 
-                                $arrayQuestion['responseIDQuestion']    = $idReponse . "_" . $nb;
+                                    $arrayQuestion['responseIDQuestion']    = $idReponse . "_" . $nb;
 
-                                if($mode == "edit")
-                                {
-                                    //je prefix avec "set"
-                                    $functionName = "get".$idReponse . "" . $nb;
-
-                                    //je regarde si la methode exist dans ma classe entity
-                                    if(method_exists($responseResult,$functionName)) 
+                                    if($mode == "edit")
                                     {
-                                        $arrayQuestion['response'] = $responseResult->$functionName();
-                                    }else
-                                    {
-                                        $arrayQuestion['response'] = "";
+                                        //je prefix avec "set"
+                                        $functionName = "get".$idReponse . "" . $nb;
+
+                                        //je regarde si la methode exist dans ma classe entity
+                                        if(method_exists($responseResult,$functionName)) 
+                                        {
+                                            $arrayQuestion['response'] = $responseResult->$functionName();
+                                        }else
+                                        {
+                                            $arrayQuestion['response'] = "";
+                                        }
                                     }
-                                }
 
-                                $arrayBlock[$idQuestion]    = $arrayQuestion;
+                                    $arrayBlock[$idQuestion]    = $arrayQuestion;
+                                }
+                                
+                                $nb = $nb + 1;
+                                array_push($arrayFinal, $arrayBlock);
                             }
-                            
-                            $nb = $nb + 1;
-                            array_push($arrayFinal, $arrayBlock);
                         }
                     }
                 }
@@ -500,5 +515,16 @@ class DefaultController extends Controller
         } catch (Exception $e) {
             return new Response("Error : " . $e->getMessage());
         }
+    }
+
+    public function replaceNomMarque($title)
+    {
+        $realTitle = "";
+        $session = $this->get('session');
+        $nomMarque = $session->get('nomMarque');
+        if (strpos($title, '[nomMarque]') !== false) {
+            $realTitle = str_replace("[nomMarque]",$nomMarque,$title);
+        }
+        return $realTitle;
     }
 }

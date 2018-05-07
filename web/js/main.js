@@ -104,7 +104,7 @@ $(document).ready(function()
     }
   }
   
-  $("label").on("click",function(){
+  $(".box-rating>fieldset>label").on("click",function(){
     //je recupe l'id radio
     var radioID = $(this).attr('for');
     //je recupe la radio
@@ -182,6 +182,7 @@ $(document).ready(function()
       });
 	});
 
+  //function qui permet d'activer les onglets du menu si actif
   function _activeMenu(iIndex)
   {
     $("#menu-step > li").each(function(){
@@ -191,19 +192,27 @@ $(document).ready(function()
     $("#menu-step > li:nth-child("+ iIndex +")").addClass("active-menu");
   }
 
-  function getUrlParameter(sParam) {
-      var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-          sURLVariables = sPageURL.split('&'),
-          sParameterName,
-          i;
+  //limite les QCM à deux choix
+  $("input[class='qcm-choices']").change(function () {
+    var maxAllowed = 2;
+    var cnt = $("input[class='qcm-choices']:checked").length;
+    if (cnt > maxAllowed)
+    {
+       $(this).prop("checked", "");
+   }
+  });
 
-      for (i = 0; i < sURLVariables.length; i++) {
-          sParameterName = sURLVariables[i].split('=');
-
-          if (sParameterName[0] === sParam) {
-              return sParameterName[1] === undefined ? true : sParameterName[1];
-          }
+  $(".box-0to10").parent().parent().next().css( "display", "none" );
+  $(".content-0t10 > input").on("change",function(){
+      $el = $(".box-0to10").parent().parent();
+      $boxToDisabled = $el.next();
+      if($(this).val() <= 8)
+      {
+        $boxToDisabled.css( "display", "block" );
+      }else
+      {
+        $boxToDisabled.css( "display", "none" );
       }
-  };
+  });
 
 });

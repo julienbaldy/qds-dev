@@ -31,6 +31,7 @@ $icon-hebergements : "#{$path-to-icon}hebergements.png";
 $icon-repas : "#{$path-to-icon}repas.png";
 $icon-logistique : "#{$path-to-icon}logistique.png";
 $icon-programme : "#{$path-to-icon}programme.png";
+$icon-tourisme : "#{$path-to-icon}tourisme_responsable.png";
 
 
 /**********************
@@ -156,6 +157,20 @@ $icon-programme : "#{$path-to-icon}programme.png";
   margin-right: 10px;
 }
 
+#messageSF >span:before { 
+  border-right-color: $color-background-yellow;
+}
+
+#messageSF >span:first-child:before { 
+  border-right-color: $color-background-blue;
+}
+
+
+
+
+   
+
+
 #icon-internet{
   background-image: url($icon-internet);
 }
@@ -199,4 +214,8 @@ $icon-programme : "#{$path-to-icon}programme.png";
 
 #icon-programme{
   background-image: url($icon-programme);
+}
+
+#icon-tourisme{
+  background-image: url($icon-tourisme);
 }
