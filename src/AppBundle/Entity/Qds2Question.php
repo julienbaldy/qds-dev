@@ -84,6 +84,28 @@ class Qds2Question
      */
     private $idquestion;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="questionLink", type="string", length=80, nullable=false)
+     */
+    private $questionlink; 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="questionLinkURL", type="string", length=80, nullable=false)
+     */
+    private $questionlinkurl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="questionLinkTarget", type="string", length=80, nullable=false)
+     */
+    private $questionlinktarget; 
+
+
 
     public function getIdblock(){
         return $this->idblock;
@@ -163,6 +185,30 @@ class Qds2Question
 
     public function setIdquestion($idquestion){
         $this->idquestion = $idquestion;
+    }
+
+    public function getQuestionLink(){
+        return $this->questionLink;
+    }
+    
+    public function setQuestionLink($questionLink){
+        $this->questionLink = $questionLink;
+    }
+
+    public function getQuestionLinkURL(){
+        return $this->questionLinkURL;
+    }
+
+    public function setQuestionLinkURL($questionLinkURL){
+        $this->questionLinkURL = $questionLinkURL;
+    }
+
+    public function getQuestionLinkTarget(){
+        return $this->questionLinkTarget;
+    }
+
+    public function setQuestionLinkTarget($questionLinkTarget){
+        $this->questionLinkTarget = $questionLinkTarget;
     }
 }
 

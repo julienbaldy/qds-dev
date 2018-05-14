@@ -51,6 +51,24 @@
       <options>
         <option name="fixed"/>
       </options>
+    </field>    
+    <field name="questionlink" type="string" column="questionLink" length="50" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="questionlinkurl" type="string" column="questionLinkURL" length="50" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="questionlinktarget" type="string" column="questionLinkTarget" length="50" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
     </field>
   </entity>
 </doctrine-mapping>
+
+
+
