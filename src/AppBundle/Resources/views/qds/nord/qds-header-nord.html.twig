@@ -30,17 +30,13 @@
         <div class="row no-padding-margin">
 	        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 no-padding-margin">
         		<ul class="col-md-12 col-sm-12 col-xs-12 col-lg-12 no-padding" id="menu-step">
-    				{% set number = 0 %}
 	                {% for key,val in arrayStep %}
-	        			{% if not loop.last %} 
-	        				{% set title = val[0]|split(' : ') %}
-	        				{% set number = number + 1 %}
-	        				{% if loop.first %} 
-	        					<li class="col-md-4 col-sm-4 col-xs-4 col-lg-4 active-menu"><span>{{ title[1] }}</span></li>
-	                		{% else %}
-	        					<li class="col-md-4 col-sm-4 col-xs-4 col-lg-4"><span>{{ title[1] }}</span></li>
-                			{% endif %}
-	                	{% endif %}
+        				{% set title = val[0]|split(':') %}
+        				{% if loop.first %} 
+        					<li class="col-md-4 col-sm-4 col-xs-4 col-lg-4 active-menu"><span>{{ title[1] }}</span></li>
+                		{% else %}
+        					<li class="col-md-4 col-sm-4 col-xs-4 col-lg-4"><span>{{ title[1] }}</span></li>
+            			{% endif %}
 	                {% endfor %}
             	</ul>
 	        </div>

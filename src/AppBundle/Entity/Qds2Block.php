@@ -52,7 +52,7 @@ class Qds2Block
     /**
      * @var string
      *
-     * @ORM\Column(name="blockicon", type="string", length=50)
+     * @ORM\Column(name="blockIcons", type="string", length=50)
      */
     private $blockicon;
 

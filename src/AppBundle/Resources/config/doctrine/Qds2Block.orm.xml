@@ -27,7 +27,7 @@
         <option name="unsigned"/>
       </options>
     </field>
-    <field name="blockicon" type="string" column="blockicon" length="50" nullable="true">
+    <field name="blockicon" type="string" column="blockIcons" length="50" nullable="true">
       <options>
         <option name="fixed"/>
       </options>

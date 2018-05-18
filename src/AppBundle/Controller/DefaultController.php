@@ -47,7 +47,7 @@ class DefaultController extends Controller
             $session = $this->get('session');
             $session->set('currentDate', date("Y-m-d H:i:s"));
             $session->set('marque', $request->query->get('marque'));
-            $session->set('typeQds', $request->query->get('typeQds'));
+            $session->set('typeQds', "GIR");
             $session->set('mode', $request->query->get('mode'));
             $session->set('arrayModes', array("create","edit","consult"));
 
@@ -55,8 +55,6 @@ class DefaultController extends Controller
             if ($marque == "66-nord") {
                  $session->set('nomMarque', "66°Nord");
             }
-
-
 
 
             //Bouchons
@@ -110,60 +108,51 @@ class DefaultController extends Controller
             $patternRepo    = $this->getDoctrine()->getRepository(Qds2Pattern::class);
             $stepRepo       = $this->getDoctrine()->getRepository(Qds2Step::class);
 
+            //Manque le concept de marque
+            $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
+            $arrayStep      = array();
+            $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
+
+            $session->set('qdspattern', $pattern);
+
+            //récupérer les step automatiquement suivant le type de questionnaire
+            foreach ($steps as $value) {
+                $step = $this->_getStep($pattern , $value->getSteporder(), $mode);
+                array_push($arrayStep, $step);
+            }
+
             if(in_array($mode, $arrayModes))
             {
                 if($mode == 'edit')
                 {
                     if($marque == "66-nord")
                     {
-                        //Manque le concept de marque
-                        $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
-                        $arrayStep      = array();
-                        $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
-
-                        $session->set('qdspattern', $pattern);
-
-                        //récupérer les step automatiquement suivant le type de questionnaire
-                        foreach ($steps as $value) {
-                            $step = $this->_getStep($pattern , $value->getSteporder(), $mode);
-                            array_push($arrayStep, $step);
-                        }
-
-                        /*var_dump($arrayStep);
-                        die;*/
                         return $this->render('@App/qds/nord/edition.html.twig', array('arrayStep' => $arrayStep));
+                    }
+                    else if ($marque == "atalante")
+                    {
+
                     }
                     else
                     {
                         return $this->render('@App/404.html.twig', array('arrayStep' => ""));
                     }
                 }
-                else
+                else if ($mode == 'create')
                 {
                     if($marque == "66-nord")
                     {
-                        //Manque le concept de marque
-                        $pattern        = $patternRepo->findOneBy(array('qdspattern' => $typeQds));
-                        $arrayStep      = array();
-                        $steps          = $stepRepo->findBy(array('idpattern' => $pattern->getIdpattern()));
-
-                        $session->set('qdspattern', $pattern);
-
-                        //récupérer les step automatiquement suivant le type de questionnaire
-                        foreach ($steps as $value) {
-                            $step = $this->_getStep($pattern , $value->getSteporder(), $mode);
-                            array_push($arrayStep, $step);
-                        }
-
-                        /*$stepOne        = $this->_getStep($pattern , 1); //AVANT DEPART
-                        $stepTwo        = $this->_getStep($pattern , 2); //PENDANT VOYAGE
-                        $stepThree      = $this->_getStep($pattern , 3); //APRES VOYAGE
-                        $stepFour       = $this->_getStep($pattern , 4); //REMERCIEMNET*/
-
                         //A changer par la suite, avoir un template-qds.html.twig
                         return $this->render('@App/qds/nord/qds-nord.html.twig', 
                             array('arrayStep' => $arrayStep));
-                    }else
+                    }
+                    else if ($marque == "atalante")
+                    {
+                        //A changer par la suite, avoir un template-qds.html.twig
+                        return $this->render('@App/qds/atalante/qds-atalante.html.twig', 
+                            array('arrayStep' => $arrayStep));
+                    }
+                    else
                     {
                         return $this->render('@App/404.html.twig', array('errorMessage' => "marque inexistante"));
                     }
@@ -221,7 +210,11 @@ class DefaultController extends Controller
 
             //je récupe le block 
             $blocks         = $blockRepo->findBy(array('idstep' => $idStep), array('blockorder' => 'ASC'));
-            $responseResult = $reponseRepo->findOneBy(array('numPas' => $numpassTMP, 'numDos' => $numDosTMP));
+
+            if($mode == "edit")
+            {
+                $responseResult = $reponseRepo->findOneBy(array('numPas' => $numpassTMP, 'numDos' => $numDosTMP));
+            }
 
             /*var_dump($blockRepo->findAll());
             die;*/
