@@ -18,21 +18,13 @@ $color-number-step-menu : #b8dde3;
 $color-note-0to10-orange : #ff9219;
 $color-note-0to10-vert : #009446;
 
-  /* icons Surement changer les nom des icons sur la plateforme de dev*/
-$path-to-icon : "/img/nord/icons/";
-$icon-internet : "#{$path-to-icon}internet.png";
-$icon-marque : "#{$path-to-icon}66nord.png";
-$icon-conseiller : "#{$path-to-icon}conseiller.png";
-$icon-documents : "#{$path-to-icon}documents.png";
-$icon-transport : "#{$path-to-icon}transport.png";
-$icon-accueil : "#{$path-to-icon}accueil.png";
-$icon-guide : "#{$path-to-icon}guide.png";
-$icon-hebergements : "#{$path-to-icon}hebergements.png";
-$icon-repas : "#{$path-to-icon}repas.png";
-$icon-logistique : "#{$path-to-icon}logistique.png";
-$icon-programme : "#{$path-to-icon}programme.png";
-$icon-tourisme : "#{$path-to-icon}tourisme_responsable.png";
 
+$icon-marque : "#{$path-to-icon}66nord.png";
+
+#icon-marque{
+  background-image: url($icon-marque);
+  width: 44px !important;
+}
 
 /**********************
 *
@@ -63,17 +55,9 @@ $icon-tourisme : "#{$path-to-icon}tourisme_responsable.png";
 }
 
 .box-intro{
-  padding: 15px 0 0 0;
-
-  p{
-    text-align: center;
-  }
-
   p:nth-child(2) {
     color: $color-background-blue;
-    font-weight: 700;
   }
-
 }
 
 
@@ -144,18 +128,6 @@ $icon-tourisme : "#{$path-to-icon}tourisme_responsable.png";
   }
 }
 
-.icon-title-h3{
-  width: 33px;
-  height: 33px;
-  background-size: 100%;
-  border: none;
-  display: inline-block;
-  background-position: center;
-  background-repeat: no-repeat;
-  float: left;
-  margin-top: 13px;
-  margin-right: 10px;
-}
 
 #messageSF >span:before { 
   border-right-color: $color-background-yellow;
@@ -163,53 +135,4 @@ $icon-tourisme : "#{$path-to-icon}tourisme_responsable.png";
 
 #messageSF >span:first-child:before { 
   border-right-color: $color-background-blue;
-}
-
-#icon-internet{
-  background-image: url($icon-internet);
-}
-
-#icon-marque{
-  background-image: url($icon-marque);
-  width: 44px !important;
-}
-
-#icon-conseiller{
-  background-image: url($icon-conseiller);
-}
-
-#icon-documents{
-  background-image: url($icon-documents);
-}
-
-#icon-transport{
-  background-image: url($icon-transport);
-}
-
-#icon-accueil{
-  background-image: url($icon-accueil);
-}
-
-#icon-guide{
-  background-image: url($icon-guide);
-}
-
-#icon-hebergements{
-  background-image: url($icon-hebergements);
-}
-
-#icon-repas{
-  background-image: url($icon-repas);
-}
-
-#icon-logistique{
-  background-image: url($icon-logistique);
-}
-
-#icon-programme{
-  background-image: url($icon-programme);
-}
-
-#icon-tourisme{
-  background-image: url($icon-tourisme);
 }

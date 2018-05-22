@@ -29,6 +29,20 @@ $color-number-step-menu : #b8dde3;
 $color-note-0to10-orange : #ff9219;
 $color-note-0to10-vert : #009446;
 
+  /* icons Surement changer les nom des icons sur la plateforme de dev*/
+$path-to-icon : "/img/icons/";
+$icon-internet : "#{$path-to-icon}internet.png";
+$icon-conseiller : "#{$path-to-icon}conseiller.png";
+$icon-documents : "#{$path-to-icon}documents.png";
+$icon-transport : "#{$path-to-icon}transport.png";
+$icon-accueil : "#{$path-to-icon}accueil.png";
+$icon-guide : "#{$path-to-icon}guide.png";
+$icon-hebergements : "#{$path-to-icon}hebergements.png";
+$icon-repas : "#{$path-to-icon}repas.png";
+$icon-logistique : "#{$path-to-icon}logistique.png";
+$icon-programme : "#{$path-to-icon}programme.png";
+$icon-tourisme_responsable : "#{$path-to-icon}tourisme_responsable.png";
+
 
 
 /**********************
@@ -109,6 +123,16 @@ h1 { font-size: 1.5em; margin: 10px; }
 *
 *
 **********************/
+
+.box-intro{
+  padding: 15px 0 0 0;
+
+  p{
+    text-align: center;
+    font-weight: 700;
+  }
+}
+
 
 #btn-suivant, #btn-valider{
 	margin: auto;	    
@@ -344,7 +368,7 @@ h1 { font-size: 1.5em; margin: 10px; }
   content: "";
   position: absolute;
   right: 50%;
-  top: 0px;
+  top: 0px !important;
   width: 0;
   height: 0;
   border-top: 14px solid transparent;
@@ -353,3 +377,60 @@ h1 { font-size: 1.5em; margin: 10px; }
 }
 
 
+
+#icon-internet{
+  background-image: url($icon-internet);
+}
+
+#icon-conseiller{
+  background-image: url($icon-conseiller);
+}
+
+#icon-documents{
+  background-image: url($icon-documents);
+}
+
+#icon-transport{
+  background-image: url($icon-transport);
+}
+
+#icon-accueil{
+  background-image: url($icon-accueil);
+}
+
+#icon-guide{
+  background-image: url($icon-guide);
+}
+
+#icon-hebergements{
+  background-image: url($icon-hebergements);
+}
+
+#icon-repas{
+  background-image: url($icon-repas);
+}
+
+#icon-logistique{
+  background-image: url($icon-logistique);
+}
+
+#icon-programme{
+  background-image: url($icon-programme);
+}
+
+#icon-tourisme_responsable{
+  background-image: url($icon-tourisme_responsable);
+}
+
+.icon-title-h3{
+  width: 33px;
+  height: 33px;
+  background-size: 100%;
+  border: none;
+  display: inline-block;
+  background-position: center;
+  background-repeat: no-repeat;
+  float: left;
+  margin-top: 13px;
+  margin-right: 10px;
+}

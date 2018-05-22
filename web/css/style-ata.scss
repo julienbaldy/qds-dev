@@ -1,0 +1,136 @@
+/**********************
+*
+*
+        VARIABLES
+* 
+*
+**********************/
+
+/* MARQUE : ATALANTE  */
+
+
+$color-star-full: #FFED85;
+$color-star-hover: #f6c82c;
+$color-background-yellow : #f6c82c;
+$color-background-blue : #337ab7;
+$color-background-blue-light : #337ab760;
+$color-box-title-parent : #337ab7;
+$color-menu-active : #337ab7;
+$color-number-step-menu : #b8dde3;
+$color-note-0to10-orange : #ff9219;
+$color-note-0to10-vert : #009446;
+$color-text-bonjour : #202a36;
+
+
+$icon-marque : "#{$path-to-icon}atalante.png";
+
+#icon-marque{
+  background-image: url($icon-marque);
+  width: 44px !important;
+}
+
+/**********************
+*
+*
+  CUSTOM CSS ATALANTE
+*
+*
+**********************/
+#logo-atalante{
+    position: absolute;
+    z-index: 1;
+    width: 46%;
+    top: 6%;
+    left: 26%;
+}
+
+.box-title-parent{
+  background-color: $color-background-blue;
+  color: white;
+
+  .box-title-child{
+    text-align: center;
+    padding: 1px 0 1px 0;
+    h1{
+      font-size: 2.7em;
+    }
+  }
+}
+
+.box-intro{
+  p:first-child{
+   color: $color-text-bonjour; 
+  }
+  p:not(:first-child) {
+    color: $color-background-blue;
+  }
+}
+
+
+#menu-step{
+
+  li{
+    background-color: $color-background-blue-light;
+
+    span{
+      &:before{    
+        color: $color-number-step-menu !important;
+      }
+    }
+
+    &:first-child:after{    
+      right: -18px;
+      border-top: 94px solid $color-background-blue-light;
+      border-right: 18px solid transparent;
+    }
+
+    &:nth-child(2):after{    
+      right: -18px;
+      border-top: 94px solid $color-background-blue-light;
+      border-right: 18px solid transparent;
+    }
+
+    &:nth-child(2):before{    
+      top: -2px;
+      left: -18px;
+      border-bottom: 93px solid $color-background-blue-light;
+      border-left: 18px solid transparent;
+      position: absolute;
+    }
+
+    &:last-child:before{  
+      top: -2px;
+      left: -18px;
+      border-bottom: 93px solid $color-background-blue-light;
+      border-left: 18px solid transparent;
+      position: absolute;
+    }
+  }
+}
+
+
+.active-menu{
+  background-color: $color-menu-active !important;
+
+  &:after{    
+    border-top-color: $color-menu-active !important;
+  }
+  &:before{    
+    border-bottom-color: $color-menu-active !important;
+  }
+
+}
+
+
+.first-sf{
+  background-color: $color-background-blue !important;
+}
+
+#messageSF > span:not(.first-sf){
+  background-color: $color-background-yellow;
+}
+
+#btn-suivant, #btn-valider{
+  background-color: $color-background-blue; 
+  border-color: $color-background-blue;
+}

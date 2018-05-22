@@ -25,11 +25,21 @@
             {% if current_marque == "66-nord" %}
                 <link rel="stylesheet" href="{{ asset('build/nord.css') }}">
             {% endif %}
+            {% if current_marque == "atalante" %}
+                <link rel="stylesheet" href="{{ asset('build/atalante.css') }}">
+            {% endif %}
 
         {% endblock %}
     </head>
     <body>
-        {% block header %}{% include "@App/qds/nord/qds-header-nord.html.twig" %}{% endblock %}
+        {% block header %}
+            {% if current_marque == "66-nord" %}
+                {% include "@App/qds/nord/qds-header-nord.html.twig" %} 
+            {% endif %}
+            {% if current_marque == "atalante" %}
+                {% include "@App/qds/atalante/qds-header-atalante.html.twig" %} 
+            {% endif %}
+        {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

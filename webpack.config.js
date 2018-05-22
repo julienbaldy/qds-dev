@@ -12,6 +12,7 @@ Encore
 	
 	//add style entry for each marque
     .addStyleEntry('nord', './web/css/style-nord.scss')
+    .addStyleEntry('atalante', './web/css/style-ata.scss')
 	
 	//add style entry for responsive design
     .addStyleEntry('mobile', './web/css/responsive.scss')

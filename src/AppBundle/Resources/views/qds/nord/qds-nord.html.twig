@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
 <div class="">
     <div class="row ">
@@ -8,7 +7,6 @@
 
                 <div class="box-form-content col-md-12 col-sm-12">
                     {% for key,val in arrayStep %}
- 
                        {% if loop.first %}
                             {% set etat = 'active' %}     
                         {% else %} 
@@ -123,11 +121,6 @@
                     <div class="box-nav">
                         <input type="button" value="Passer à l'étape suivante" class="btn btn-primary btn-sm btn-active" id="btn-suivant"/>
                         <input type="submit" value="Valider" id="btn-valider" class="btn btn-primary btn-sm btn-inactive"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <a  href="http://www.66nord.com/avis-voyage-66nord" class='ls-modal'>Login</a>
-                    <div id="myModal" class="modal fade">
                     </div>
                 </div>
             </form>

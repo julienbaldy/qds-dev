@@ -151,9 +151,9 @@ $(document).ready(function()
   
 	$("#btn-suivant").on("click",function(){
 		var isActive = false;
-		var length = $(".box-form-content > div").length;
+		var length = $(".box-form-content > .box-form").length;
 
-		$(".box-form-content > div").each(function(index, element) {
+		$(".box-form-content > .box-form").each(function(index, element) {
 
 			if(isActive)
 			{
@@ -163,7 +163,7 @@ $(document).ready(function()
 
 				$('html, body').animate({scrollTop: $(".box-title-child").offset().top}, 500);
 
-        if (index === (length - 2)) {
+        if (index === (length - 1)) {
 					$("#btn-suivant").css("display","none");
 					$("#btn-valider").css("display","block");
 				}
@@ -179,7 +179,7 @@ $(document).ready(function()
 			} 
 
 			
-      });
+    });
 	});
 
   //function qui permet d'activer les onglets du menu si actif
@@ -214,5 +214,12 @@ $(document).ready(function()
         $boxToDisabled.css( "display", "none" );
       }
   });
+
+
+  $('.ls-modal').on('click', function(e){
+    e.preventDefault();
+    $('#myModal').modal('show').find('.modal-body').load($(this).attr('href'));
+  });
+
 
 });

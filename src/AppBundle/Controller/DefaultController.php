@@ -43,7 +43,7 @@ class DefaultController extends Controller
                 $session = new Session();
                 $session->start();
             }
-
+            
             $session = $this->get('session');
             $session->set('currentDate', date("Y-m-d H:i:s"));
             $session->set('marque', $request->query->get('marque'));
@@ -131,7 +131,7 @@ class DefaultController extends Controller
                     }
                     else if ($marque == "atalante")
                     {
-
+                       
                     }
                     else
                     {
@@ -142,6 +142,7 @@ class DefaultController extends Controller
                 {
                     if($marque == "66-nord")
                     {
+                        
                         //A changer par la suite, avoir un template-qds.html.twig
                         return $this->render('@App/qds/nord/qds-nord.html.twig', 
                             array('arrayStep' => $arrayStep));
