@@ -99,6 +99,21 @@ class DefaultController extends Controller
             ->add('QSD', TextType::class)
             ->getForm();*/
 
+
+        $dsn = 'sqlsrv:host=CALIMERO8;dbname=CLUBAV';
+        $user = 'intranet';
+        $password = 'intranet';
+
+        try
+        {
+            $pdo_object = new PDO($dsn, $user, $password);
+        }
+        catch (PDOException $e)
+        {
+            echo 'Connection failed: ' . $e->getMessage();
+        }   
+        die;
+
         $this->_init($request);  
 
         try {
