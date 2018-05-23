@@ -53,7 +53,10 @@ class DefaultController extends Controller
 
             $marque = $session->get('marque');
             if ($marque == "66-nord") {
-                 $session->set('nomMarque', "66°Nord");
+                $session->set('nomMarque', "66°Nord");
+            }
+            else if ($marque == "atalante"){
+                $session->set('nomMarque', "Atalante");
             }
 
 
@@ -166,7 +169,6 @@ class DefaultController extends Controller
         } catch (Exception $e) {
             return new Response("Error : " . $e->getMessage());
         }
-        
     }
 
 

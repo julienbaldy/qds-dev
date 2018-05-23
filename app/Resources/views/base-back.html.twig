@@ -1,0 +1,28 @@
+
+{% set current_marque = app.session.get('marque') %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+            <meta charset="UTF-8" />
+            <title>{% block title %}Gestion QDS{% endblock %}</title>
+            {% block stylesheets %}{% endblock %}
+            <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+            <script src="{{ asset('build/app-back.js') }}"></script>
+            <link rel="stylesheet" href="{{ asset('build/global-back.css') }}">
+
+        {% endblock %}
+    </head>
+    <body>
+
+        {% block header %}
+            {% include "@App/back/header.html.twig" %} 
+        {% endblock %}
+
+        {% block bodyback %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

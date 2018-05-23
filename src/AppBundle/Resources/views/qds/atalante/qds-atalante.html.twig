@@ -20,7 +20,7 @@
                             {% if loop.first %} 
                                 <div class="box-form-{{etat}} box-form">   
                             {% else %}    
-                                <div id="icon-{{ val.blockIcon }}" class="icon-title-h3"></div><h3>{{ val.blockTitle }}</h3>
+                                <div id="icon-{{ val.blockIcon }}" data-attr-idblock="{{ val.idBlock }}" class="icon-title-h3"></div><h3>{{ val.blockTitle }}</h3>
                                 <hr class="hr-nord hr-title">
                                 {% if val.guideID is defined %}
                                     <input type="hidden" value="{{ val.guideID }}" name="id_tl_{{ nb_guide }}___guideID" id="{{ val.idBlock }}"/>

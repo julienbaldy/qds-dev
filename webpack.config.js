@@ -10,12 +10,15 @@ Encore
     // read global.scss -> output as web/build/global.css
     .addStyleEntry('global', './web/css/main.scss')
 	
-	//add style entry for each marque
+	//add style entry for each marques
     .addStyleEntry('nord', './web/css/style-nord.scss')
     .addStyleEntry('atalante', './web/css/style-ata.scss')
 	
 	//add style entry for responsive design
     .addStyleEntry('mobile', './web/css/responsive.scss')
+
+    //add style entry for back office and marques
+    .addStyleEntry('global-back', './web/css/main-back.scss')
 
     // enable features!
     .enableSassLoader(function(sassOptions) {}, {
